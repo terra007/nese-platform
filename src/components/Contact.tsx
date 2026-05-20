@@ -1,33 +1,61 @@
 "use client";
 
 import { useState } from "react";
+import { z } from "zod";
 import { createClient } from "@/lib/supabase/client";
 
+const contactSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  organisation: z.string().optional(),
+  email: z.string().email("Please enter a valid email address"),
+  enquiry: z.string().min(10, "Please provide at least 10 characters"),
+});
+
+type FormData = z.infer<typeof contactSchema>;
+type FieldErrors = Partial<Record<keyof FormData, string>>;
 type Status = "idle" | "loading" | "success" | "error";
 
 export default function Contact() {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormData>({
     name: "",
     organisation: "",
     email: "",
     enquiry: "",
   });
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<Status>("idle");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  ) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+    if (fieldErrors[name as keyof FormData]) {
+      setFieldErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus("loading");
 
+    const result = contactSchema.safeParse(form);
+    if (!result.success) {
+      const errors: FieldErrors = {};
+      result.error.issues.forEach((issue) => {
+        const field = issue.path[0] as keyof FormData;
+        errors[field] = issue.message;
+      });
+      setFieldErrors(errors);
+      return;
+    }
+
+    setStatus("loading");
     const supabase = createClient();
     const { error } = await supabase.from("contacts").insert({
-      name: form.name,
-      organisation: form.organisation || null,
-      email: form.email,
-      enquiry: form.enquiry,
+      name: result.data.name,
+      organisation: result.data.organisation || null,
+      email: result.data.email,
+      enquiry: result.data.enquiry,
     });
 
     if (error) {
@@ -38,8 +66,15 @@ export default function Contact() {
     }
   };
 
-  const inputClass =
-    "w-full bg-zinc-900 border border-white/[0.08] px-4 py-3 text-sm text-white placeholder-zinc-700 focus:outline-none focus:border-[#c9a84c]/40 transition-colors";
+  const baseInput =
+    "w-full bg-zinc-900 border px-4 py-3 text-sm text-white placeholder-zinc-700 focus:outline-none transition-colors";
+
+  const inputClass = (field: keyof FormData) =>
+    `${baseInput} ${
+      fieldErrors[field]
+        ? "border-red-500/50 focus:border-red-500/70"
+        : "border-white/[0.08] focus:border-[#c9a84c]/40"
+    }`;
 
   return (
     <section id="contact" className="py-32 bg-zinc-950 border-t border-white/[0.06]">
@@ -93,7 +128,10 @@ export default function Contact() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <h3 className="text-white text-xl mb-3" style={{ fontFamily: "var(--font-dm-serif), Georgia, serif" }}>
+                <h3
+                  className="text-white text-xl mb-3"
+                  style={{ fontFamily: "var(--font-dm-serif), Georgia, serif" }}
+                >
                   Enquiry Received
                 </h3>
                 <p className="text-zinc-400 text-sm leading-relaxed mb-8 max-w-xs">
@@ -107,7 +145,7 @@ export default function Contact() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-[10px] text-zinc-600 uppercase tracking-[0.18em] mb-2">
@@ -116,12 +154,14 @@ export default function Contact() {
                     <input
                       type="text"
                       name="name"
-                      required
                       value={form.name}
                       onChange={handleChange}
-                      className={inputClass}
+                      className={inputClass("name")}
                       placeholder="Full name"
                     />
+                    {fieldErrors.name && (
+                      <p className="mt-1.5 text-[11px] text-red-400">{fieldErrors.name}</p>
+                    )}
                   </div>
                   <div>
                     <label className="block text-[10px] text-zinc-600 uppercase tracking-[0.18em] mb-2">
@@ -132,7 +172,7 @@ export default function Contact() {
                       name="organisation"
                       value={form.organisation}
                       onChange={handleChange}
-                      className={inputClass}
+                      className={inputClass("organisation")}
                       placeholder="Your organisation"
                     />
                   </div>
@@ -145,12 +185,14 @@ export default function Contact() {
                   <input
                     type="email"
                     name="email"
-                    required
                     value={form.email}
                     onChange={handleChange}
-                    className={inputClass}
+                    className={inputClass("email")}
                     placeholder="your@email.com"
                   />
+                  {fieldErrors.email && (
+                    <p className="mt-1.5 text-[11px] text-red-400">{fieldErrors.email}</p>
+                  )}
                 </div>
 
                 <div>
@@ -159,13 +201,15 @@ export default function Contact() {
                   </label>
                   <textarea
                     name="enquiry"
-                    required
                     rows={5}
                     value={form.enquiry}
                     onChange={handleChange}
-                    className={`${inputClass} resize-none`}
+                    className={`${inputClass("enquiry")} resize-none`}
                     placeholder="Describe your requirements..."
                   />
+                  {fieldErrors.enquiry && (
+                    <p className="mt-1.5 text-[11px] text-red-400">{fieldErrors.enquiry}</p>
+                  )}
                 </div>
 
                 {status === "error" && (
