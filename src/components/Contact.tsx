@@ -1,4 +1,46 @@
+"use client";
+
+import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+
+type Status = "idle" | "loading" | "success" | "error";
+
 export default function Contact() {
+  const [form, setForm] = useState({
+    name: "",
+    organisation: "",
+    email: "",
+    enquiry: "",
+  });
+  const [status, setStatus] = useState<Status>("idle");
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+
+    const supabase = createClient();
+    const { error } = await supabase.from("contacts").insert({
+      name: form.name,
+      organisation: form.organisation || null,
+      email: form.email,
+      enquiry: form.enquiry,
+    });
+
+    if (error) {
+      setStatus("error");
+    } else {
+      setStatus("success");
+      setForm({ name: "", organisation: "", email: "", enquiry: "" });
+    }
+  };
+
+  const inputClass =
+    "w-full bg-zinc-900 border border-white/[0.08] px-4 py-3 text-sm text-white placeholder-zinc-700 focus:outline-none focus:border-[#c9a84c]/40 transition-colors";
+
   return (
     <section id="contact" className="py-32 bg-zinc-950 border-t border-white/[0.06]">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -44,59 +86,103 @@ export default function Contact() {
 
           {/* Right: Form */}
           <div>
-            <form className="space-y-5">
-              <div className="grid sm:grid-cols-2 gap-5">
+            {status === "success" ? (
+              <div className="h-full flex flex-col justify-center py-12">
+                <div className="w-10 h-10 border border-[#c9a84c]/40 flex items-center justify-center mb-6">
+                  <svg className="w-4 h-4 text-[#c9a84c]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h3 className="text-white text-xl mb-3" style={{ fontFamily: "var(--font-dm-serif), Georgia, serif" }}>
+                  Enquiry Received
+                </h3>
+                <p className="text-zinc-400 text-sm leading-relaxed mb-8 max-w-xs">
+                  Thank you. A member of our team will be in touch within two business days.
+                </p>
+                <button
+                  onClick={() => setStatus("idle")}
+                  className="text-sm text-[#c9a84c] hover:text-[#d4b96a] transition-colors tracking-wide text-left"
+                >
+                  Submit another enquiry →
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="grid sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-[10px] text-zinc-600 uppercase tracking-[0.18em] mb-2">
+                      Name <span className="text-[#c9a84c]">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      value={form.name}
+                      onChange={handleChange}
+                      className={inputClass}
+                      placeholder="Full name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] text-zinc-600 uppercase tracking-[0.18em] mb-2">
+                      Organisation
+                    </label>
+                    <input
+                      type="text"
+                      name="organisation"
+                      value={form.organisation}
+                      onChange={handleChange}
+                      className={inputClass}
+                      placeholder="Your organisation"
+                    />
+                  </div>
+                </div>
+
                 <div>
                   <label className="block text-[10px] text-zinc-600 uppercase tracking-[0.18em] mb-2">
-                    Name
+                    Email <span className="text-[#c9a84c]">*</span>
                   </label>
                   <input
-                    type="text"
-                    className="w-full bg-zinc-900 border border-white/[0.08] px-4 py-3 text-sm text-white placeholder-zinc-700 focus:outline-none focus:border-[#c9a84c]/40 transition-colors"
-                    placeholder="Full name"
+                    type="email"
+                    name="email"
+                    required
+                    value={form.email}
+                    onChange={handleChange}
+                    className={inputClass}
+                    placeholder="your@email.com"
                   />
                 </div>
+
                 <div>
                   <label className="block text-[10px] text-zinc-600 uppercase tracking-[0.18em] mb-2">
-                    Organisation
+                    Enquiry <span className="text-[#c9a84c]">*</span>
                   </label>
-                  <input
-                    type="text"
-                    className="w-full bg-zinc-900 border border-white/[0.08] px-4 py-3 text-sm text-white placeholder-zinc-700 focus:outline-none focus:border-[#c9a84c]/40 transition-colors"
-                    placeholder="Your organisation"
+                  <textarea
+                    name="enquiry"
+                    required
+                    rows={5}
+                    value={form.enquiry}
+                    onChange={handleChange}
+                    className={`${inputClass} resize-none`}
+                    placeholder="Describe your requirements..."
                   />
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-[10px] text-zinc-600 uppercase tracking-[0.18em] mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  className="w-full bg-zinc-900 border border-white/[0.08] px-4 py-3 text-sm text-white placeholder-zinc-700 focus:outline-none focus:border-[#c9a84c]/40 transition-colors"
-                  placeholder="your@email.com"
-                />
-              </div>
+                {status === "error" && (
+                  <p className="text-red-400 text-xs tracking-wide">
+                    Something went wrong. Please try again or email us directly.
+                  </p>
+                )}
 
-              <div>
-                <label className="block text-[10px] text-zinc-600 uppercase tracking-[0.18em] mb-2">
-                  Enquiry
-                </label>
-                <textarea
-                  rows={5}
-                  className="w-full bg-zinc-900 border border-white/[0.08] px-4 py-3 text-sm text-white placeholder-zinc-700 focus:outline-none focus:border-[#c9a84c]/40 transition-colors resize-none"
-                  placeholder="Describe your requirements..."
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full py-3.5 bg-[#c9a84c] text-zinc-950 font-medium text-sm tracking-wide hover:bg-[#d4b96a] transition-colors duration-200"
-              >
-                Send Enquiry
-              </button>
-            </form>
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="w-full py-3.5 bg-[#c9a84c] text-zinc-950 font-medium text-sm tracking-wide hover:bg-[#d4b96a] transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {status === "loading" ? "Sending…" : "Send Enquiry"}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>
