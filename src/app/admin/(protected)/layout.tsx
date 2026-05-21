@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import AdminNav from "./AdminNav";
-import { logoutAction } from "./actions";
+import AdminNav from "../AdminNav";
+import { logoutAction } from "../actions";
 
-export default async function AdminLayout({
+export default async function ProtectedAdminLayout({
   children,
 }: {
   children: React.ReactNode;

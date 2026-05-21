@@ -1,5 +1,5 @@
 import { getContent, CONTENT_SCHEMA } from "@/lib/content";
-import { saveContent } from "../actions";
+import { saveContent } from "../../actions";
 
 export default async function ContentPage({
   searchParams,

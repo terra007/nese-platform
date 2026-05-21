@@ -65,11 +65,9 @@ export default async function AdminDashboard() {
 
       {/* Recent enquiries */}
       <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm text-white uppercase tracking-[0.15em]">
-            Recent Enquiries
-          </h2>
-        </div>
+        <h2 className="text-sm text-white uppercase tracking-[0.15em] mb-4">
+          Recent Enquiries
+        </h2>
 
         {!contacts || contacts.length === 0 ? (
           <div className="border border-white/[0.06] p-8 text-center text-zinc-600 text-sm">
@@ -78,7 +76,10 @@ export default async function AdminDashboard() {
         ) : (
           <div className="border border-white/[0.06] divide-y divide-white/[0.04]">
             {contacts.map((contact) => (
-              <div key={contact.id} className="p-5 hover:bg-white/[0.02] transition-colors">
+              <div
+                key={contact.id}
+                className="p-5 hover:bg-white/[0.02] transition-colors"
+              >
                 <div className="flex items-start justify-between gap-4 mb-2">
                   <div>
                     <span className="text-white text-sm font-medium">

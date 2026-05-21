@@ -1,5 +1,5 @@
 import { getContent } from "@/lib/content";
-import { saveTheme } from "../actions";
+import { saveTheme } from "../../actions";
 
 export default async function ThemePage({
   searchParams,
@@ -47,7 +47,6 @@ export default async function ThemePage({
           </div>
 
           <div className="p-6 space-y-6">
-            {/* Accent color */}
             <div>
               <label className="block text-[10px] text-zinc-600 uppercase tracking-[0.18em] mb-3">
                 Accent Color
@@ -68,7 +67,6 @@ export default async function ThemePage({
               </div>
             </div>
 
-            {/* Accent hover */}
             <div>
               <label className="block text-[10px] text-zinc-600 uppercase tracking-[0.18em] mb-3">
                 Accent Hover Color
@@ -89,7 +87,6 @@ export default async function ThemePage({
               </div>
             </div>
 
-            {/* Preview */}
             <div className="border-t border-white/[0.06] pt-6">
               <p className="text-[10px] text-zinc-600 uppercase tracking-[0.18em] mb-4">
                 Current Preview
@@ -107,28 +104,17 @@ export default async function ThemePage({
                 >
                   Outline Button
                 </span>
-                <span
-                  className="text-sm font-medium"
-                  style={{ color: accentColor }}
-                >
+                <span className="text-sm font-medium" style={{ color: accentColor }}>
                   Accent Text
                 </span>
-                <span
-                  className="w-4 h-4 rounded-full animate-pulse mt-1"
-                  style={{ backgroundColor: accentColor }}
-                />
               </div>
             </div>
 
-            <div className="bg-zinc-950/50 border border-white/[0.04] p-4 rounded">
+            <div className="bg-zinc-950/50 border border-white/[0.04] p-4">
               <p className="text-zinc-500 text-xs leading-relaxed">
                 <strong className="text-zinc-400">Note:</strong> Color changes
-                take effect immediately for visitors who reload the page. The
-                accent color is applied via a CSS custom property (
-                <code className="text-zinc-400 font-mono text-[11px]">
-                  --color-accent
-                </code>
-                ) that overrides the site-wide theme.
+                take effect immediately for visitors who reload the page. Only
+                valid hex colors are accepted.
               </p>
             </div>
           </div>
