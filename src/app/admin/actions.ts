@@ -251,3 +251,36 @@ export async function deleteSection(formData: FormData) {
   revalidatePath("/");
   redirect("/admin/sections?deleted=1");
 }
+
+// ─── Client-callable (no redirect) ───────────────────────────────────────────
+
+export async function reorderSections(orderedIds: string[]) {
+  const { supabase } = await requireAdmin();
+
+  const results = await Promise.all(
+    orderedIds.map((id, index) =>
+      supabase.from("page_sections").update({ sort_order: index }).eq("id", id)
+    )
+  );
+
+  revalidatePath("/");
+  return { success: !results.some((r) => r.error) };
+}
+
+export async function toggleVisibility(id: string, visible: boolean) {
+  const { supabase } = await requireAdmin();
+  const { error } = await supabase
+    .from("page_sections")
+    .update({ visible })
+    .eq("id", id);
+  revalidatePath("/");
+  return { success: !error };
+}
+
+export async function deleteSectionById(id: string, slug: string) {
+  if (BUILTIN_SLUGS.has(slug)) return { success: false, error: "Cannot delete built-in sections" };
+  const { supabase } = await requireAdmin();
+  const { error } = await supabase.from("page_sections").delete().eq("id", id);
+  revalidatePath("/");
+  return { success: !error };
+}
