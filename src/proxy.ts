@@ -40,8 +40,8 @@ export async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const adminEmail = process.env.ADMIN_EMAIL;
-  if (!user || !adminEmail || user.email !== adminEmail) {
+  const adminId = process.env.ADMIN_USER_ID;
+  if (!user || !adminId || user.id !== adminId) {
     return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 
