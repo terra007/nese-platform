@@ -33,7 +33,11 @@ const links = [
   },
 ];
 
-export default function AdminNav() {
+interface Props {
+  onNavigate?: () => void;
+}
+
+export default function AdminNav({ onNavigate }: Props) {
   const pathname = usePathname();
 
   return (
@@ -47,7 +51,8 @@ export default function AdminNav() {
           <Link
             key={link.href}
             href={link.href}
-            className={`flex items-center gap-3 px-3 py-2.5 text-sm rounded transition-colors duration-150 ${
+            onClick={onNavigate}
+            className={`flex items-center gap-3 px-3 py-3 md:py-2.5 text-sm rounded transition-colors duration-150 ${
               isActive
                 ? "bg-[#c9a84c]/10 text-[#c9a84c]"
                 : "text-zinc-500 hover:text-zinc-200 hover:bg-white/[0.04]"
