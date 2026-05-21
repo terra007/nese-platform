@@ -40,8 +40,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const content = await getContent();
-  const accentColor = content["global.accent_color"] ?? "#c9a84c";
-  const accentHover = content["global.accent_hover"] ?? "#d4b96a";
+
+  // Validate hex colors before injecting into a <style> tag.
+  // Reject anything that isn't a strict 6- or 8-digit hex to prevent CSS injection.
+  const HEX_COLOR_RE = /^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$/;
+  const rawAccent = content["global.accent_color"] ?? "";
+  const rawHover = content["global.accent_hover"] ?? "";
+  const accentColor = HEX_COLOR_RE.test(rawAccent) ? rawAccent : "#c9a84c";
+  const accentHover = HEX_COLOR_RE.test(rawHover) ? rawHover : "#d4b96a";
   const isCustomColor = accentColor !== "#c9a84c" || accentHover !== "#d4b96a";
 
   return (

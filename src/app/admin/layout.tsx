@@ -3,8 +3,6 @@ import { createClient } from "@/lib/supabase/server";
 import AdminNav from "./AdminNav";
 import { logoutAction } from "./actions";
 
-const ADMIN_EMAIL = "REDACTED";
-
 export default async function AdminLayout({
   children,
 }: {
@@ -15,7 +13,8 @@ export default async function AdminLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user || user.email !== ADMIN_EMAIL) {
+  const adminEmail = process.env.ADMIN_EMAIL;
+  if (!user || !adminEmail || user.email !== adminEmail) {
     redirect("/admin/login");
   }
 

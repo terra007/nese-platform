@@ -2,8 +2,6 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
-const ADMIN_EMAIL = "REDACTED";
-
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -42,7 +40,8 @@ export async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user || user.email !== ADMIN_EMAIL) {
+  const adminEmail = process.env.ADMIN_EMAIL;
+  if (!user || !adminEmail || user.email !== adminEmail) {
     return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 

@@ -1,29 +1,33 @@
 -- ============================================================
 -- NESE Admin Panel — Supabase Setup
--- Run this in the Supabase SQL Editor for your project
+-- Run this in the Supabase SQL Editor for your project.
+-- If you already ran a previous version, use the ALTER/DROP
+-- statements at the bottom to update the policies.
 -- ============================================================
 
 -- 1. Site settings table (editable content + theme)
 CREATE TABLE IF NOT EXISTS site_settings (
-  key   TEXT PRIMARY KEY,
-  value TEXT,
+  key        TEXT PRIMARY KEY,
+  value      TEXT,
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Row Level Security
 ALTER TABLE site_settings ENABLE ROW LEVEL SECURITY;
 
--- Public can read (frontend fetches content)
+-- Public can read (frontend fetches content on every page load)
 CREATE POLICY "Public read site_settings"
   ON site_settings FOR SELECT
   USING (true);
 
--- Authenticated users (admin) can write
-CREATE POLICY "Auth write site_settings"
+-- Only the admin email can write.
+-- Replace the email below if ADMIN_EMAIL ever changes.
+CREATE POLICY "Admin write site_settings"
   ON site_settings FOR ALL
-  USING (auth.role() = 'authenticated');
+  USING ((auth.jwt() ->> 'email') = 'REDACTED');
 
--- 2. Contacts table (already created if you ran the contact form setup)
+-- ============================================================
+-- 2. Contacts table
+-- ============================================================
 CREATE TABLE IF NOT EXISTS contacts (
   id           BIGSERIAL PRIMARY KEY,
   name         TEXT NOT NULL,
@@ -35,27 +39,32 @@ CREATE TABLE IF NOT EXISTS contacts (
 
 ALTER TABLE contacts ENABLE ROW LEVEL SECURITY;
 
--- Anyone can insert (contact form)
+-- Anyone can INSERT (public contact form)
 CREATE POLICY "Public insert contacts"
   ON contacts FOR INSERT
   WITH CHECK (true);
 
--- Only authenticated users can read contacts (admin dashboard)
-CREATE POLICY "Auth read contacts"
+-- Only the admin can read submissions
+CREATE POLICY "Admin read contacts"
   ON contacts FOR SELECT
-  USING (auth.role() = 'authenticated');
+  USING ((auth.jwt() ->> 'email') = 'REDACTED');
 
 -- ============================================================
--- 3. Create your admin user
+-- 3. Create the admin Supabase user
 -- ============================================================
--- Go to: Supabase Dashboard → Authentication → Users → Add User
--- Enter your admin email + password.
--- That user will be able to log in at /admin/login
+-- Dashboard → Authentication → Users → Add User → Create new user
+--   Email:    REDACTED
+--   Password: (choose a strong password)
+--   Uncheck "Send confirmation email"
 -- ============================================================
 
--- 4. (Optional) Supabase Storage for image uploads
--- Go to: Supabase Dashboard → Storage → New Bucket
--- Name: "media"
--- Public bucket: YES (check "Public bucket")
--- Then add a policy: authenticated users can upload (INSERT)
+-- ============================================================
+-- UPDATING FROM A PREVIOUS INSTALL
+-- If you already ran an older version of this file, drop the
+-- old broad policies and recreate them:
+-- ============================================================
+-- DROP POLICY IF EXISTS "Auth write site_settings" ON site_settings;
+-- DROP POLICY IF EXISTS "Auth read contacts"       ON contacts;
+--
+-- Then re-run the CREATE POLICY statements above.
 -- ============================================================
