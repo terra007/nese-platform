@@ -1,13 +1,13 @@
 import { getPageSections, pagesectionsReady } from "@/lib/sections";
-import { addSection } from "../../actions";
+import { addSection, publishSections } from "../../actions";
 import SectionsList from "../../SectionsList";
 
 export default async function SectionsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ added?: string; error?: string }>;
+  searchParams: Promise<{ added?: string; error?: string; published?: string }>;
 }) {
-  const { added, error } = await searchParams;
+  const { added, error, published } = await searchParams;
   const [sections, tableReady] = await Promise.all([
     getPageSections(),
     pagesectionsReady(),
@@ -18,16 +18,33 @@ export default async function SectionsPage({
 
   return (
     <div>
-      <div className="mb-8">
-        <h1
-          className="text-2xl text-white mb-1"
-          style={{ fontFamily: "var(--font-dm-serif), Georgia, serif" }}
-        >
-          Sections
-        </h1>
-        <p className="text-zinc-500 text-sm">
-          Drag to reorder · toggle visibility · add or delete custom blocks.
-        </p>
+      <div className="mb-8 flex items-start justify-between gap-4">
+        <div>
+          <h1
+            className="text-2xl text-white mb-1"
+            style={{ fontFamily: "var(--font-dm-serif), Georgia, serif" }}
+          >
+            Sections
+          </h1>
+          <p className="text-zinc-500 text-sm">
+            Drag to reorder · toggle visibility · add or delete custom blocks.
+          </p>
+          <p className="text-zinc-600 text-xs mt-1">
+            Changes to order and visibility auto-save. Click <strong className="text-zinc-500">Publish</strong> to push updates to the live navigation.
+          </p>
+        </div>
+
+        <form action={publishSections} className="shrink-0">
+          <button
+            type="submit"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#c9a84c] text-zinc-950 text-sm font-medium tracking-wide hover:bg-[#d4b96a] transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18" />
+            </svg>
+            Publish
+          </button>
+        </form>
       </div>
 
       {!tableReady && (
@@ -42,6 +59,14 @@ export default async function SectionsPage({
         </div>
       )}
 
+      {published === "1" && (
+        <div className="mb-6 px-4 py-3 bg-emerald-900/20 border border-emerald-500/30 text-emerald-400 text-sm flex items-center gap-2">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          Published — the live site and navigation have been updated.
+        </div>
+      )}
       {added === "1" && (
         <div className="mb-6 px-4 py-3 bg-emerald-900/20 border border-emerald-500/30 text-emerald-400 text-sm">
           Section added.

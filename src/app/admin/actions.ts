@@ -254,6 +254,12 @@ export async function deleteSection(formData: FormData) {
 
 // ─── Client-callable (no redirect) ───────────────────────────────────────────
 
+export async function publishSections() {
+  await requireAdmin();
+  revalidatePath("/");
+  redirect("/admin/sections?published=1");
+}
+
 export async function reorderSections(orderedIds: string[]) {
   const { supabase } = await requireAdmin();
 

@@ -12,7 +12,7 @@ export default function CustomSection({ section }: { section: PageSection }) {
     .filter(Boolean);
 
   return (
-    <section className="py-32 bg-zinc-950 border-t border-white/[0.06]">
+    <section id={section.slug} className="py-32 bg-zinc-950 border-t border-white/[0.06]">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="max-w-3xl">
           {eyebrow && (
