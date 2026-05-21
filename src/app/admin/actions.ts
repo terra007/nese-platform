@@ -120,12 +120,14 @@ export async function toggleSectionVisibility(formData: FormData) {
   const id      = (formData.get("id")      as string | null) ?? "";
   const visible = (formData.get("visible") as string | null) === "true";
 
-  if (!id) return redirect("/admin/sections");
+  if (!id) return redirect("/admin/sections?error=notable");
 
-  await supabase
+  const { error } = await supabase
     .from("page_sections")
     .update({ visible })
     .eq("id", id);
+
+  if (error) return redirect("/admin/sections?error=notable");
 
   revalidatePath("/");
   redirect("/admin/sections");
@@ -137,10 +139,9 @@ export async function moveSectionUp(formData: FormData) {
   const id    = (formData.get("id")    as string | null) ?? "";
   const order = Number(formData.get("sort_order") ?? 0);
 
-  if (!id) return redirect("/admin/sections");
+  if (!id) return redirect("/admin/sections?error=notable");
 
-  // Find the section directly above this one
-  const { data: above } = await supabase
+  const { data: above, error } = await supabase
     .from("page_sections")
     .select("id, sort_order")
     .lt("sort_order", order)
@@ -148,9 +149,9 @@ export async function moveSectionUp(formData: FormData) {
     .limit(1)
     .single();
 
+  if (error) return redirect("/admin/sections?error=notable");
   if (!above) return redirect("/admin/sections");
 
-  // Swap the two sort_order values
   await supabase.from("page_sections").update({ sort_order: above.sort_order }).eq("id", id);
   await supabase.from("page_sections").update({ sort_order: order }).eq("id", above.id);
 
@@ -164,9 +165,9 @@ export async function moveSectionDown(formData: FormData) {
   const id    = (formData.get("id")    as string | null) ?? "";
   const order = Number(formData.get("sort_order") ?? 0);
 
-  if (!id) return redirect("/admin/sections");
+  if (!id) return redirect("/admin/sections?error=notable");
 
-  const { data: below } = await supabase
+  const { data: below, error } = await supabase
     .from("page_sections")
     .select("id, sort_order")
     .gt("sort_order", order)
@@ -174,6 +175,7 @@ export async function moveSectionDown(formData: FormData) {
     .limit(1)
     .single();
 
+  if (error) return redirect("/admin/sections?error=notable");
   if (!below) return redirect("/admin/sections");
 
   await supabase.from("page_sections").update({ sort_order: below.sort_order }).eq("id", id);
@@ -195,26 +197,25 @@ export async function addSection(formData: FormData) {
 
   if (!title || !heading) return redirect("/admin/sections?error=missing");
 
-  // Generate a unique slug from the title
   const slug = `custom-${Date.now()}`;
 
-  // Place it just before the contact section (last builtin), or at end
-  const { data: last } = await supabase
+  const { data: last, error: lastErr } = await supabase
     .from("page_sections")
     .select("sort_order")
     .order("sort_order", { ascending: false })
     .limit(1)
     .single();
 
+  if (lastErr) return redirect("/admin/sections?error=notable");
+
   const maxOrder = last?.sort_order ?? 10;
 
-  // Insert before contact (shift contact down)
   await supabase
     .from("page_sections")
     .update({ sort_order: maxOrder + 2 })
     .eq("slug", "contact");
 
-  await supabase.from("page_sections").insert({
+  const { error: insertErr } = await supabase.from("page_sections").insert({
     slug,
     type: "custom",
     title,
@@ -222,6 +223,8 @@ export async function addSection(formData: FormData) {
     sort_order: maxOrder + 1,
     content: { eyebrow, heading, body, cta_text, cta_url },
   });
+
+  if (insertErr) return redirect("/admin/sections?error=notable");
 
   revalidatePath("/");
   redirect("/admin/sections?added=1");
@@ -233,10 +236,11 @@ export async function deleteSection(formData: FormData) {
   const id   = (formData.get("id")   as string | null) ?? "";
   const slug = (formData.get("slug") as string | null) ?? "";
 
-  // Never allow deleting built-in sections — only hide them
   if (!id || BUILTIN_SLUGS.has(slug)) return redirect("/admin/sections");
 
-  await supabase.from("page_sections").delete().eq("id", id);
+  const { error } = await supabase.from("page_sections").delete().eq("id", id);
+
+  if (error) return redirect("/admin/sections?error=notable");
 
   revalidatePath("/");
   redirect("/admin/sections?deleted=1");

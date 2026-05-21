@@ -16,7 +16,7 @@ export interface PageSection {
   };
 }
 
-const DEFAULT_SECTIONS: PageSection[] = [
+export const DEFAULT_SECTIONS: PageSection[] = [
   { id: "hero",     slug: "hero",     type: "builtin", title: "Hero",           visible: true, sort_order: 0, content: {} },
   { id: "services", slug: "services", type: "builtin", title: "Services",       visible: true, sort_order: 1, content: {} },
   { id: "mission",  slug: "mission",  type: "builtin", title: "Mission",        visible: true, sort_order: 2, content: {} },
@@ -37,5 +37,18 @@ export async function getPageSections(): Promise<PageSection[]> {
     return data as PageSection[];
   } catch {
     return DEFAULT_SECTIONS;
+  }
+}
+
+/** Returns true only if the page_sections table exists AND has rows. */
+export async function pagesectionsReady(): Promise<boolean> {
+  try {
+    const supabase = await createClient();
+    const { error } = await supabase
+      .from("page_sections")
+      .select("id", { head: true, count: "exact" });
+    return !error;
+  } catch {
+    return false;
   }
 }

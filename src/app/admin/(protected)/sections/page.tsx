@@ -1,4 +1,4 @@
-import { getPageSections } from "@/lib/sections";
+import { getPageSections, pagesectionsReady } from "@/lib/sections";
 import {
   toggleSectionVisibility,
   moveSectionUp,
@@ -13,7 +13,10 @@ export default async function SectionsPage({
   searchParams: Promise<{ added?: string; deleted?: string; error?: string }>;
 }) {
   const { added, deleted, error } = await searchParams;
-  const sections = await getPageSections();
+  const [sections, tableReady] = await Promise.all([
+    getPageSections(),
+    pagesectionsReady(),
+  ]);
 
   const inputClass =
     "w-full bg-zinc-950 border border-white/[0.08] px-3 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-[#c9a84c]/40 transition-colors";
@@ -40,6 +43,24 @@ export default async function SectionsPage({
       {deleted === "1" && (
         <div className="mb-6 px-4 py-3 bg-emerald-900/20 border border-emerald-500/30 text-emerald-400 text-sm">
           Section deleted.
+        </div>
+      )}
+      {!tableReady && (
+        <div className="mb-6 p-5 bg-amber-900/20 border border-amber-500/40 text-amber-300 text-sm leading-relaxed">
+          <p className="font-medium mb-1">Database setup required</p>
+          <p className="text-amber-400/80">
+            The <code className="font-mono text-amber-300">page_sections</code> table does not exist in your
+            Supabase project yet. Run the <strong>Section 3</strong> block from{" "}
+            <code className="font-mono text-amber-300">supabase-setup.sql</code> in the
+            Supabase SQL Editor, then reload this page. Until then, reorder and
+            visibility changes will have no effect.
+          </p>
+        </div>
+      )}
+
+      {error === "notable" && (
+        <div className="mb-6 px-4 py-3 bg-red-900/20 border border-red-500/30 text-red-400 text-sm">
+          Could not save — the database table may not be set up yet. See the yellow notice above.
         </div>
       )}
       {error === "missing" && (
