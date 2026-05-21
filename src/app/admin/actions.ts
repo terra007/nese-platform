@@ -93,17 +93,23 @@ export async function saveContent(formData: FormData) {
   redirect("/admin/content?saved=1");
 }
 
+const THEME_KEYS = [
+  "global.accent_color",
+  "global.accent_hover",
+  "global.button_text",
+  "global.text_primary",
+  "global.text_body",
+  "global.bg",
+] as const;
+
 export async function saveTheme(formData: FormData) {
   const { supabase } = await requireAdmin();
 
-  const rawAccent = (formData.get("global.accent_color") as string | null) ?? "";
-  const rawHover  = (formData.get("global.accent_hover")  as string | null) ?? "";
-
   const updates: { key: string; value: string }[] = [];
-  if (HEX_COLOR_RE.test(rawAccent))
-    updates.push({ key: "global.accent_color", value: rawAccent });
-  if (HEX_COLOR_RE.test(rawHover))
-    updates.push({ key: "global.accent_hover", value: rawHover });
+  for (const key of THEME_KEYS) {
+    const raw = (formData.get(key) as string | null) ?? "";
+    if (HEX_COLOR_RE.test(raw)) updates.push({ key, value: raw });
+  }
 
   if (updates.length > 0)
     await supabase.from("site_settings").upsert(updates, { onConflict: "key" });

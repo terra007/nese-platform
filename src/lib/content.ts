@@ -78,6 +78,10 @@ export const CONTENT_DEFAULTS: Record<string, string> = {
   // Global / Theme
   "global.accent_color": "#c9a84c",
   "global.accent_hover": "#d4b96a",
+  "global.button_text":  "#09090b",
+  "global.text_primary": "#fafafa",
+  "global.text_body":    "#a1a1aa",
+  "global.bg":           "#09090b",
 };
 
 export type FieldType = "text" | "textarea" | "color";

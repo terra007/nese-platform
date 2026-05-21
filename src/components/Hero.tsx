@@ -83,9 +83,10 @@ export default async function Hero() {
           <div className="flex flex-col sm:flex-row items-start gap-4">
             <Link
               href="#services"
-              className="inline-flex items-center gap-2.5 px-8 py-3.5 bg-[#c9a84c] text-zinc-950 font-medium text-sm tracking-wide hover:bg-[#d4b96a] transition-colors duration-200"
+              className="inline-flex items-center gap-2.5 px-8 py-3.5 font-medium text-sm tracking-wide transition-colors duration-200"
               style={{
                 backgroundColor: "var(--color-accent, #c9a84c)",
+                color: "var(--color-button-text, #09090b)",
               }}
             >
               {content["hero.cta1_text"]}

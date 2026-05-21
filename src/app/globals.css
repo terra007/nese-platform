@@ -2,7 +2,7 @@
 
 @theme inline {
   --font-sans: var(--font-inter);
-  --color-accent: #c9a84c;
+  --color-accent:       #c9a84c;
   --color-accent-hover: #d4b96a;
 }
 
@@ -15,27 +15,23 @@ html {
 }
 
 body {
-  background: #09090b;
-  color: #fafafa;
+  background: var(--color-bg, #09090b);
+  color:      var(--color-text-primary, #fafafa);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-::selection {
-  background: #c9a84c;
-  color: #09090b;
+/* Accent-coloured buttons pick up the button-text variable */
+.btn-accent {
+  color: var(--color-button-text, #09090b);
 }
 
-::-webkit-scrollbar {
-  width: 5px;
+::selection {
+  background: var(--color-accent, #c9a84c);
+  color:      var(--color-button-text, #09090b);
 }
-::-webkit-scrollbar-track {
-  background: #09090b;
-}
-::-webkit-scrollbar-thumb {
-  background: #3f3f46;
-  border-radius: 2px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #52525b;
-}
+
+::-webkit-scrollbar        { width: 5px; }
+::-webkit-scrollbar-track  { background: var(--color-bg, #09090b); }
+::-webkit-scrollbar-thumb  { background: #3f3f46; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #52525b; }

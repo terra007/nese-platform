@@ -195,7 +195,11 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status === "loading"}
-        className="w-full py-3.5 bg-[#c9a84c] text-zinc-950 font-medium text-sm tracking-wide hover:bg-[#d4b96a] transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+        className="w-full py-3.5 font-medium text-sm tracking-wide transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+        style={{
+          backgroundColor: "var(--color-accent, #c9a84c)",
+          color: "var(--color-button-text, #09090b)",
+        }}
       >
         {status === "loading" ? "Sending…" : "Send Enquiry"}
       </button>
