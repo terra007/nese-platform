@@ -63,7 +63,7 @@ export default function AdminNav({ onNavigate }: Props) {
             onClick={onNavigate}
             className={`flex items-center gap-3 px-3 py-3 md:py-2.5 text-sm rounded transition-colors duration-150 ${
               isActive
-                ? "bg-[#c9a84c]/10 text-[#c9a84c]"
+                ? "nav-active"
                 : "text-zinc-500 hover:text-zinc-200 hover:bg-white/[0.04]"
             }`}
           >

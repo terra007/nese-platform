@@ -62,7 +62,7 @@ export default function Founder() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <div className="mb-16">
-          <p className="text-[#c9a84c] text-[11px] tracking-[0.25em] uppercase mb-5">
+          <p className="text-[11px] tracking-[0.25em] uppercase mb-5" style={{ color: "var(--color-accent)" }}>
             Leadership
           </p>
           <h2
@@ -79,14 +79,14 @@ export default function Founder() {
           <div className="lg:col-span-4">
             <div className="relative">
               {/* Decorative frame */}
-              <div className="absolute -inset-2 border border-[#c9a84c]/10" />
+              <div className="absolute -inset-2 border" style={{ borderColor: "color-mix(in srgb, var(--color-accent) 10%, transparent)" }} />
               <div className="relative aspect-[3/4] overflow-hidden bg-zinc-900">
                 {hasPhoto ? (
                   <Image
                     src="/milana-bagdasarian.jpg"
                     alt="Milana Bagdasarian — Founder, New East Strategic Edge"
                     fill
-                    className="object-cover object-top grayscale hover:grayscale-0 transition-all duration-700"
+                    className="object-cover object-top"
                     sizes="(max-width: 1024px) 100vw, 33vw"
                     priority
                   />
@@ -114,7 +114,7 @@ export default function Founder() {
                 >
                   Milana Bagdasarian
                 </h3>
-                <p className="text-[#c9a84c] text-[11px] tracking-[0.2em] uppercase mb-1">
+                <p className="text-[11px] tracking-[0.2em] uppercase mb-1" style={{ color: "var(--color-accent)" }}>
                   Founder &amp; Lead Analyst
                 </p>
                 <p className="text-zinc-600 text-xs tracking-wide">
@@ -174,7 +174,7 @@ export default function Founder() {
             </div>
 
             {/* Pull quote */}
-            <div className="border-l-2 border-[#c9a84c]/40 pl-6 py-1">
+            <div className="border-l-2 pl-6 py-1" style={{ borderColor: "color-mix(in srgb, var(--color-accent) 40%, transparent)" }}>
               <blockquote
                 className="text-zinc-300 text-lg leading-relaxed italic"
                 style={{ fontFamily: "var(--font-dm-serif), Georgia, serif" }}
@@ -199,7 +199,7 @@ export default function Founder() {
                     key={c.role}
                     className="flex items-start gap-4 py-3 border-b border-white/[0.04] last:border-0"
                   >
-                    <div className="w-1 h-1 rounded-full bg-[#c9a84c] mt-2 flex-shrink-0" />
+                    <div className="w-1 h-1 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: "var(--color-accent)" }} />
                     <div className="flex-1 min-w-0">
                       <p className="text-zinc-300 text-sm">{c.role}</p>
                       <p className="text-zinc-600 text-xs mt-0.5">{c.org}</p>
@@ -224,10 +224,14 @@ export default function Founder() {
                     href={pub.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-start gap-4 py-3 border-b border-white/[0.04] last:border-0 hover:border-[#c9a84c]/20 transition-colors"
+                    className="group flex items-start gap-4 py-3 border-b border-white/[0.04] last:border-0 transition-colors"
+                    style={{ ["--hover-border" as string]: "color-mix(in srgb, var(--color-accent) 20%, transparent)" }}
+                    onMouseEnter={e => (e.currentTarget.style.borderColor = "color-mix(in srgb, var(--color-accent) 20%, transparent)")}
+                    onMouseLeave={e => (e.currentTarget.style.borderColor = "")}
                   >
                     <svg
-                      className="w-3.5 h-3.5 text-[#c9a84c] mt-1 flex-shrink-0 opacity-60 group-hover:opacity-100 transition-opacity"
+                      className="w-3.5 h-3.5 mt-1 flex-shrink-0 opacity-60 group-hover:opacity-100 transition-opacity"
+                      style={{ color: "var(--color-accent)" }}
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"

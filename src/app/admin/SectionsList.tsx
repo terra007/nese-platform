@@ -98,13 +98,13 @@ function SortableRow({
         onClick={() => onToggle(section.id, !section.visible)}
         className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded border transition-colors shrink-0 ${
           section.visible
-            ? "border-[#c9a84c]/40 text-[#c9a84c] hover:bg-[#c9a84c]/10"
+            ? "toggle-visible"
             : "border-white/10 text-zinc-600 hover:text-zinc-300 hover:border-white/20"
         }`}
       >
         <span
           className={`w-1.5 h-1.5 rounded-full ${
-            section.visible ? "bg-[#c9a84c]" : "bg-zinc-700"
+            section.visible ? "bg-[var(--color-accent)]" : "bg-zinc-700"
           }`}
         />
         {section.visible ? "Visible" : "Hidden"}
@@ -136,7 +136,7 @@ function SortableRow({
 function DragGhost({ section }: { section: PageSection | null }) {
   if (!section) return null;
   return (
-    <div className="flex items-center gap-3 px-4 py-4 bg-zinc-900 border border-[#c9a84c]/30 shadow-2xl rounded w-full">
+    <div className="flex items-center gap-3 px-4 py-4 bg-zinc-900 border accent-border-30 shadow-2xl rounded w-full">
       <span className="text-zinc-500 p-1"><GripIcon /></span>
       <div className="flex-1 min-w-0">
         <p className="text-white text-sm">{section.title}</p>

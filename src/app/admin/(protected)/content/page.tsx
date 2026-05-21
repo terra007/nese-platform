@@ -10,7 +10,7 @@ export default async function ContentPage({
   const content = await getContent();
 
   const inputClass =
-    "w-full bg-zinc-950 border border-white/[0.08] px-3 py-2.5 text-sm text-white placeholder-zinc-700 focus:outline-none focus:border-[#c9a84c]/40 transition-colors";
+    "w-full bg-zinc-950 border border-white/[0.08] px-3 py-2.5 text-sm text-white placeholder-zinc-700 focus-accent transition-colors";
 
   return (
     <div>
@@ -47,7 +47,7 @@ export default async function ContentPage({
                 </h2>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-[#c9a84c] text-zinc-950 text-xs font-medium tracking-wide hover:bg-[#d4b96a] transition-colors"
+                  className="px-4 py-1.5 btn-filled text-xs font-medium tracking-wide transition-colors"
                 >
                   Save Section
                 </button>

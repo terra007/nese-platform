@@ -14,7 +14,7 @@ export default async function SectionsPage({
   ]);
 
   const inputClass =
-    "w-full bg-zinc-950 border border-white/[0.08] px-3 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-[#c9a84c]/40 transition-colors";
+    "w-full bg-zinc-950 border border-white/[0.08] px-3 py-2.5 text-sm text-white placeholder-zinc-600 focus-accent transition-colors";
 
   return (
     <div>
@@ -37,7 +37,7 @@ export default async function SectionsPage({
         <form action={publishSections} className="shrink-0">
           <button
             type="submit"
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#c9a84c] text-zinc-950 text-sm font-medium tracking-wide hover:bg-[#d4b96a] transition-colors"
+            className="flex items-center gap-2 px-5 py-2.5 btn-filled text-sm font-medium tracking-wide transition-colors"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18" />
@@ -103,7 +103,7 @@ export default async function SectionsPage({
           <div className="grid sm:grid-cols-2 gap-5">
             <div>
               <label className="block text-[10px] text-zinc-600 uppercase tracking-[0.18em] mb-2">
-                Admin Label <span className="text-[#c9a84c]">*</span>
+                Admin Label <span className="text-[var(--color-accent)]">*</span>
               </label>
               <input
                 type="text"
@@ -133,7 +133,7 @@ export default async function SectionsPage({
 
           <div>
             <label className="block text-[10px] text-zinc-600 uppercase tracking-[0.18em] mb-2">
-              Heading <span className="text-[#c9a84c]">*</span>
+              Heading <span className="text-[var(--color-accent)]">*</span>
             </label>
             <input
               type="text"
@@ -187,7 +187,7 @@ export default async function SectionsPage({
 
           <button
             type="submit"
-            className="px-6 py-2.5 bg-[#c9a84c] text-zinc-950 text-sm font-medium tracking-wide hover:bg-[#d4b96a] transition-colors"
+            className="px-6 py-2.5 btn-filled text-sm font-medium tracking-wide transition-colors"
           >
             Add Section
           </button>

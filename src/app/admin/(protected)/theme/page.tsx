@@ -190,7 +190,7 @@ export default async function ThemePage({
           </p>
           <button
             type="submit"
-            className="px-6 py-2.5 bg-[#c9a84c] text-zinc-950 text-sm font-medium tracking-wide hover:bg-[#d4b96a] transition-colors"
+            className="px-6 py-2.5 btn-filled text-sm font-medium tracking-wide transition-colors"
           >
             Save Theme
           </button>

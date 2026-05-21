@@ -40,7 +40,7 @@ export default function LoginPage() {
                 name="email"
                 required
                 autoComplete="email"
-                className="w-full bg-zinc-950 border border-white/[0.08] px-4 py-3 text-sm text-white placeholder-zinc-700 focus:outline-none focus:border-[#c9a84c]/40 transition-colors"
+                className="w-full bg-zinc-950 border border-white/[0.08] px-4 py-3 text-sm text-white placeholder-zinc-700 focus-accent transition-colors"
                 placeholder="admin@example.com"
               />
             </div>
@@ -54,7 +54,7 @@ export default function LoginPage() {
                 name="password"
                 required
                 autoComplete="current-password"
-                className="w-full bg-zinc-950 border border-white/[0.08] px-4 py-3 text-sm text-white placeholder-zinc-700 focus:outline-none focus:border-[#c9a84c]/40 transition-colors"
+                className="w-full bg-zinc-950 border border-white/[0.08] px-4 py-3 text-sm text-white placeholder-zinc-700 focus-accent transition-colors"
                 placeholder="••••••••"
               />
             </div>
@@ -68,7 +68,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={pending}
-              className="w-full py-3 bg-[#c9a84c] text-zinc-950 font-medium text-sm tracking-wide hover:bg-[#d4b96a] transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full py-3 btn-filled font-medium text-sm tracking-wide transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {pending ? "Signing in…" : "Sign In"}
             </button>

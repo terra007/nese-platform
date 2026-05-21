@@ -32,6 +32,35 @@ body {
   border-color: color-mix(in srgb, var(--color-accent, #c9a84c) 40%, transparent);
 }
 
+/* Active nav item */
+.nav-active {
+  background-color: color-mix(in srgb, var(--color-accent, #c9a84c) 10%, transparent);
+  color: var(--color-accent, #c9a84c);
+}
+
+/* Sections visibility toggle — active/visible state */
+.toggle-visible {
+  border-color: color-mix(in srgb, var(--color-accent, #c9a84c) 40%, transparent);
+  color: var(--color-accent, #c9a84c);
+}
+.toggle-visible:hover {
+  background-color: color-mix(in srgb, var(--color-accent, #c9a84c) 10%, transparent);
+}
+
+/* Drag-ghost border */
+.accent-border-30 {
+  border-color: color-mix(in srgb, var(--color-accent, #c9a84c) 30%, transparent);
+}
+
+/* Accent-coloured text link with hover */
+.accent-link {
+  color: var(--color-accent, #c9a84c);
+  transition: color 150ms;
+}
+.accent-link:hover {
+  color: var(--color-accent-hover, #d4b96a);
+}
+
 /* Filled accent button — usable in Server Components (no JS needed) */
 .btn-filled {
   background-color: var(--color-accent, #c9a84c);

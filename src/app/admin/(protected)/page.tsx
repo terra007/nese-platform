@@ -35,7 +35,7 @@ export default async function AdminDashboard() {
       {/* Quick stats */}
       <div className="grid grid-cols-3 gap-4 mb-8">
         <div className="bg-zinc-900/50 border border-white/[0.06] p-5">
-          <div className="text-2xl text-[#c9a84c] font-mono mb-1">
+          <div className="text-2xl text-[var(--color-accent)] font-mono mb-1">
             {totalContacts ?? 0}
           </div>
           <div className="text-zinc-500 text-xs uppercase tracking-[0.15em]">
@@ -43,7 +43,7 @@ export default async function AdminDashboard() {
           </div>
         </div>
         <div className="bg-zinc-900/50 border border-white/[0.06] p-5">
-          <div className="text-2xl text-[#c9a84c] font-mono mb-1">
+          <div className="text-2xl text-[var(--color-accent)] font-mono mb-1">
             {totalSettings ?? 0}
           </div>
           <div className="text-zinc-500 text-xs uppercase tracking-[0.15em]">
@@ -55,7 +55,7 @@ export default async function AdminDashboard() {
             href="/admin/content"
             className="flex flex-col h-full justify-between group"
           >
-            <div className="text-2xl text-[#c9a84c] font-mono mb-1">→</div>
+            <div className="text-2xl text-[var(--color-accent)] font-mono mb-1">→</div>
             <div className="text-zinc-500 text-xs uppercase tracking-[0.15em] group-hover:text-zinc-300 transition-colors">
               Edit Content
             </div>
@@ -101,7 +101,7 @@ export default async function AdminDashboard() {
                 </div>
                 <a
                   href={`mailto:${contact.email}`}
-                  className="text-[#c9a84c] text-xs hover:text-[#d4b96a] transition-colors"
+                  className="accent-link text-xs"
                 >
                   {contact.email}
                 </a>
