@@ -33,6 +33,7 @@ const DEFAULTS = {
   "global.accent_color": "#c9a84c",
   "global.accent_hover": "#d4b96a",
   "global.button_text":  "#09090b",
+  "global.outline_btn":  "#d4d4d8",
   "global.text_primary": "#fafafa",
   "global.text_body":    "#a1a1aa",
   "global.bg":           "#09090b",
@@ -46,25 +47,20 @@ export default async function RootLayout({
   const accent      = safe(content["global.accent_color"] ?? "", DEFAULTS["global.accent_color"]);
   const accentHover = safe(content["global.accent_hover"] ?? "", DEFAULTS["global.accent_hover"]);
   const buttonText  = safe(content["global.button_text"]  ?? "", DEFAULTS["global.button_text"]);
+  const outlineBtn  = safe(content["global.outline_btn"]  ?? "", DEFAULTS["global.outline_btn"]);
   const textPrimary = safe(content["global.text_primary"] ?? "", DEFAULTS["global.text_primary"]);
   const textBody    = safe(content["global.text_body"]    ?? "", DEFAULTS["global.text_body"]);
   const bg          = safe(content["global.bg"]           ?? "", DEFAULTS["global.bg"]);
 
-  // Only inject the tag when at least one value differs from defaults — keeps the
-  // HTML clean for sites that haven't touched the theme page.
-  const hasCustom = [
-    [accent,      DEFAULTS["global.accent_color"]],
-    [accentHover, DEFAULTS["global.accent_hover"]],
-    [buttonText,  DEFAULTS["global.button_text"]],
-    [textPrimary, DEFAULTS["global.text_primary"]],
-    [textBody,    DEFAULTS["global.text_body"]],
-    [bg,          DEFAULTS["global.bg"]],
-  ].some(([v, d]) => v !== d);
+  const hasCustom = Object.entries(DEFAULTS).some(
+    ([k, d]) => safe(content[k as keyof typeof DEFAULTS] ?? "", d) !== d
+  );
 
   const cssVars = `
     --color-accent:       ${accent};
     --color-accent-hover: ${accentHover};
     --color-button-text:  ${buttonText};
+    --color-outline-btn:  ${outlineBtn};
     --color-text-primary: ${textPrimary};
     --color-text-body:    ${textBody};
     --color-bg:           ${bg};

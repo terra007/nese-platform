@@ -1,66 +1,52 @@
 import { getContent } from "@/lib/content";
 
+const A = "var(--color-accent, #c9a84c)";
+
 export default async function Mission() {
   const content = await getContent();
 
   const stats = [
-    {
-      value: content["mission.stat_1_value"],
-      label: content["mission.stat_1_label"],
-    },
-    {
-      value: content["mission.stat_2_value"],
-      label: content["mission.stat_2_label"],
-    },
-    {
-      value: content["mission.stat_3_value"],
-      label: content["mission.stat_3_label"],
-    },
-    {
-      value: content["mission.stat_4_value"],
-      label: content["mission.stat_4_label"],
-    },
+    { value: content["mission.stat_1_value"], label: content["mission.stat_1_label"] },
+    { value: content["mission.stat_2_value"], label: content["mission.stat_2_label"] },
+    { value: content["mission.stat_3_value"], label: content["mission.stat_3_label"] },
+    { value: content["mission.stat_4_value"], label: content["mission.stat_4_label"] },
   ];
 
   return (
-    <section
-      id="about"
-      className="py-32 bg-zinc-950 border-t border-white/[0.06]"
-    >
+    <section id="about" className="py-32 bg-zinc-950 border-t border-white/[0.06]">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-          {/* Left: Text */}
+          {/* Left */}
           <div>
-            <p className="text-[#c9a84c] text-[11px] tracking-[0.25em] uppercase mb-6">
+            <p className="text-[11px] tracking-[0.25em] uppercase mb-6" style={{ color: A }}>
               {content["mission.eyebrow"]}
             </p>
             <h2
-              className="text-4xl lg:text-5xl text-white leading-tight mb-8"
-              style={{ fontFamily: "var(--font-dm-serif), Georgia, serif" }}
+              className="text-4xl lg:text-5xl leading-tight mb-8"
+              style={{
+                fontFamily: "var(--font-dm-serif), Georgia, serif",
+                color: "var(--color-text-primary, #fafafa)",
+              }}
             >
               {content["mission.headline_1"]}
               <br />
               {content["mission.headline_2"]}
             </h2>
-            <div className="space-y-5 text-zinc-400 text-base leading-relaxed">
+            <div className="space-y-5 text-base leading-relaxed" style={{ color: "var(--color-text-body, #a1a1aa)" }}>
               <p>{content["mission.paragraph_1"]}</p>
               <p>{content["mission.paragraph_2"]}</p>
               <p>{content["mission.paragraph_3"]}</p>
             </div>
           </div>
 
-          {/* Right: Stats + Blockquote */}
+          {/* Right */}
           <div className="space-y-8 lg:pt-14">
-            {/* Stats */}
             <div className="grid grid-cols-2 gap-px bg-white/[0.06]">
               {stats.map((stat) => (
                 <div key={stat.label} className="bg-zinc-950 p-7 text-center">
                   <div
                     className="text-4xl mb-2"
-                    style={{
-                      color: "var(--color-accent, #c9a84c)",
-                      fontFamily: "var(--font-dm-serif), Georgia, serif",
-                    }}
+                    style={{ color: A, fontFamily: "var(--font-dm-serif), Georgia, serif" }}
                   >
                     {stat.value}
                   </div>
@@ -72,7 +58,10 @@ export default async function Mission() {
             </div>
 
             {/* Pull quote */}
-            <div className="border-l-2 border-[#c9a84c]/40 pl-6 py-1">
+            <div
+              className="pl-6 py-1 border-l-2"
+              style={{ borderColor: `color-mix(in srgb, ${A} 40%, transparent)` }}
+            >
               <blockquote
                 className="text-zinc-300 text-lg leading-relaxed mb-3 italic"
                 style={{ fontFamily: "var(--font-dm-serif), Georgia, serif" }}

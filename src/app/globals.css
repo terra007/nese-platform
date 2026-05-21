@@ -26,6 +26,21 @@ body {
   color: var(--color-button-text, #09090b);
 }
 
+/* Utility: focus border that tracks the accent colour */
+.focus-accent:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--color-accent, #c9a84c) 40%, transparent);
+}
+
+/* Filled accent button — usable in Server Components (no JS needed) */
+.btn-filled {
+  background-color: var(--color-accent, #c9a84c);
+  color: var(--color-button-text, #09090b);
+}
+.btn-filled:hover {
+  background-color: var(--color-accent-hover, #d4b96a);
+}
+
 ::selection {
   background: var(--color-accent, #c9a84c);
   color:      var(--color-button-text, #09090b);

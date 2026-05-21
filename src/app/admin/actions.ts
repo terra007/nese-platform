@@ -97,6 +97,7 @@ const THEME_KEYS = [
   "global.accent_color",
   "global.accent_hover",
   "global.button_text",
+  "global.outline_btn",
   "global.text_primary",
   "global.text_body",
   "global.bg",

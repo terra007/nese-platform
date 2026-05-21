@@ -40,6 +40,7 @@ export default async function ThemePage({
     accent:      content["global.accent_color"] ?? "#c9a84c",
     accentHover: content["global.accent_hover"] ?? "#d4b96a",
     buttonText:  content["global.button_text"]  ?? "#09090b",
+    outlineBtn:  content["global.outline_btn"]  ?? "#d4d4d8",
     textPrimary: content["global.text_primary"] ?? "#fafafa",
     textBody:    content["global.text_body"]    ?? "#a1a1aa",
     bg:          content["global.bg"]           ?? "#09090b",
@@ -93,12 +94,18 @@ export default async function ThemePage({
           <div className="px-6 py-4 border-b border-white/[0.06]">
             <h2 className="text-xs text-white uppercase tracking-[0.2em]">Buttons</h2>
           </div>
-          <div className="p-6">
+          <div className="p-6 space-y-5">
             <ColorField
               name="global.button_text"
-              label="Button Text Colour"
-              description="Text inside filled (accent-coloured) buttons — use a dark colour on light accents"
+              label="Filled Button Text"
+              description="Text colour inside accent-coloured (filled) buttons — use dark on light accents"
               defaultValue={c.buttonText}
+            />
+            <ColorField
+              name="global.outline_btn"
+              label="Outline Button Colour"
+              description="Text and border colour for secondary/outline buttons (e.g. &ldquo;Request an Analysis&rdquo;)"
+              defaultValue={c.outlineBtn}
             />
           </div>
         </div>
@@ -169,7 +176,7 @@ export default async function ThemePage({
               </span>
               <span
                 className="inline-flex items-center px-5 py-2.5 text-sm border"
-                style={{ color: c.accent, borderColor: c.accent + "50" }}
+                style={{ color: c.outlineBtn, borderColor: c.outlineBtn + "50" }}
               >
                 Outline Button
               </span>

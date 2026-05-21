@@ -76,12 +76,13 @@ export const CONTENT_DEFAULTS: Record<string, string> = {
   "contact.location": "Vienna, Austria",
 
   // Global / Theme
-  "global.accent_color": "#c9a84c",
-  "global.accent_hover": "#d4b96a",
-  "global.button_text":  "#09090b",
-  "global.text_primary": "#fafafa",
-  "global.text_body":    "#a1a1aa",
-  "global.bg":           "#09090b",
+  "global.accent_color":  "#c9a84c",
+  "global.accent_hover":  "#d4b96a",
+  "global.button_text":   "#09090b",
+  "global.outline_btn":   "#d4d4d8",
+  "global.text_primary":  "#fafafa",
+  "global.text_body":     "#a1a1aa",
+  "global.bg":            "#09090b",
 };
 
 export type FieldType = "text" | "textarea" | "color";
