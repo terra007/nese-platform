@@ -1,40 +1,44 @@
-const pillars = [
-  {
-    step: "01",
-    title: "Collection",
-    description:
-      "We draw on open-source intelligence, academic literature, elite network reporting, and proprietary data feeds to build a comprehensive picture of the operating environment across our focus regions.",
-    tags: ["OSINT", "HUMINT", "Quantitative Data"],
-  },
-  {
-    step: "02",
-    title: "Analysis",
-    description:
-      "Our analysts apply structured analytical techniques — scenario planning, Red Teaming, and probabilistic forecasting — to stress-test assumptions and surface non-obvious risks before they become crises.",
-    tags: ["Scenario Planning", "Red Team", "Forecasting"],
-  },
-  {
-    step: "03",
-    title: "Delivery",
-    description:
-      "Intelligence products are calibrated to the client's decision cycle — from real-time alerts and weekly monitoring briefs to bespoke in-depth assessments and executive workshops.",
-    tags: ["Real-Time Alerts", "Written Reports", "Executive Briefings"],
-  },
-];
+import { getContent } from "@/lib/content";
 
-export default function Approach() {
+export default async function Approach() {
+  const content = await getContent();
+
+  const pillars = [
+    {
+      step: "01",
+      title: content["approach.1.title"],
+      description: content["approach.1.description"],
+      tags: content["approach.1.tags"].split(",").map((t) => t.trim()),
+    },
+    {
+      step: "02",
+      title: content["approach.2.title"],
+      description: content["approach.2.description"],
+      tags: content["approach.2.tags"].split(",").map((t) => t.trim()),
+    },
+    {
+      step: "03",
+      title: content["approach.3.title"],
+      description: content["approach.3.description"],
+      tags: content["approach.3.tags"].split(",").map((t) => t.trim()),
+    },
+  ];
+
   return (
-    <section id="approach" className="py-32 bg-[#0c0c0e] border-t border-white/[0.06]">
+    <section
+      id="approach"
+      className="py-32 bg-[#0c0c0e] border-t border-white/[0.06]"
+    >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="max-w-xl mb-16">
           <p className="text-[#c9a84c] text-[11px] tracking-[0.25em] uppercase mb-5">
-            Methodology
+            {content["approach.eyebrow"]}
           </p>
           <h2
             className="text-4xl lg:text-5xl text-white leading-tight"
             style={{ fontFamily: "var(--font-dm-serif), Georgia, serif" }}
           >
-            Our Analytical Framework
+            {content["approach.headline"]}
           </h2>
         </div>
 
