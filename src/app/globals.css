@@ -52,6 +52,11 @@ body {
   border-color: color-mix(in srgb, var(--color-accent, #c9a84c) 30%, transparent);
 }
 
+/* Publication row — accent border on hover */
+.accent-hover-border:hover {
+  border-color: color-mix(in srgb, var(--color-accent, #c9a84c) 20%, transparent);
+}
+
 /* Accent-coloured text link with hover */
 .accent-link {
   color: var(--color-accent, #c9a84c);

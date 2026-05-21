@@ -224,10 +224,7 @@ export default function Founder() {
                     href={pub.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-start gap-4 py-3 border-b border-white/[0.04] last:border-0 transition-colors"
-                    style={{ ["--hover-border" as string]: "color-mix(in srgb, var(--color-accent) 20%, transparent)" }}
-                    onMouseEnter={e => (e.currentTarget.style.borderColor = "color-mix(in srgb, var(--color-accent) 20%, transparent)")}
-                    onMouseLeave={e => (e.currentTarget.style.borderColor = "")}
+                    className="group flex items-start gap-4 py-3 border-b border-white/[0.04] last:border-0 accent-hover-border transition-colors"
                   >
                     <svg
                       className="w-3.5 h-3.5 mt-1 flex-shrink-0 opacity-60 group-hover:opacity-100 transition-opacity"
