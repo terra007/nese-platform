@@ -27,6 +27,11 @@ export default async function Services() {
     { id: "04", title: content["services.4.title"], description: content["services.4.description"], icon: serviceIcons[3] },
   ];
 
+  const industries = (content["services.industries_list"] ?? "")
+    .split(/\r?\n/)
+    .map((i) => i.trim())
+    .filter(Boolean);
+
   return (
     <section id="services" className="py-32 bg-zinc-950">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -83,6 +88,34 @@ export default async function Services() {
             </div>
           ))}
         </div>
+
+        {/* Industries */}
+        {industries.length > 0 && (
+          <div className="mt-24 grid lg:grid-cols-12 gap-10 lg:gap-16">
+            <div className="lg:col-span-5">
+              <h3
+                className="text-3xl lg:text-4xl leading-tight mb-5"
+                style={{
+                  fontFamily: "var(--font-dm-serif), Georgia, serif",
+                  color: "var(--color-text-primary, #fafafa)",
+                }}
+              >
+                {content["services.industries_headline"]}
+              </h3>
+              <p className="text-sm leading-relaxed max-w-sm" style={{ color: "var(--color-text-body, #a1a1aa)" }}>
+                {content["services.industries_intro"]}
+              </p>
+            </div>
+            <ul className="lg:col-span-7 grid sm:grid-cols-2 gap-px bg-white/[0.06] self-start">
+              {industries.map((industry) => (
+                <li key={industry} className="bg-zinc-950 px-6 py-5 flex items-start gap-4 sm:odd:last:col-span-2">
+                  <span className="w-1 h-1 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: A }} />
+                  <span className="text-zinc-300 text-sm leading-relaxed">{industry}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </section>
   );

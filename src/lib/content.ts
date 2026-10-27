@@ -29,6 +29,12 @@ export const CONTENT_DEFAULTS: Record<string, string> = {
   "services.4.description":
     "In-depth analysis of the coercive instruments deployed by state and non-state actors — from economic sanctions and energy leverage to lawfare, targeted operations, and information manipulation. We document, categorise, and model these tools to enable proactive counterstrategy.",
 
+  "services.industries_headline": "Industries We’ve Worked With",
+  "services.industries_intro":
+    "Our expertise can be utilised in any industry of choice. Current portfolio includes:",
+  "services.industries_list":
+    "Security and defence\nPharmaceuticals, healthcare and medical devices\nEnergy and sustainability\nRecycling and the circular economy\nInvestment banking and financial services\nPackaging and manufacturing\nPublic policy and international affairs",
+
   // Mission
   "mission.eyebrow": "About NESE",
   "mission.headline_1": "Bridging Knowledge",
@@ -136,6 +142,9 @@ export const CONTENT_SCHEMA: ContentSection[] = [
         label: "Service 4 Description",
         type: "textarea",
       },
+      { key: "services.industries_headline", label: "Industries Headline", type: "text" },
+      { key: "services.industries_intro", label: "Industries Intro", type: "textarea" },
+      { key: "services.industries_list", label: "Industries (one per line)", type: "textarea" },
     ],
   },
   {
