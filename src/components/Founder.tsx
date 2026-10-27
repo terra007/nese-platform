@@ -65,7 +65,7 @@ const experience = [
   {
     role: "Researcher",
     org: "Shattuck Center for Human Rights",
-    location: "Vienna",
+    location: "",
     period: "Jun – Jul 2025",
     summary:
       "Supported the international conference “Contested Solidarities” and the publication project “Healing Ukraine”.",
@@ -369,7 +369,7 @@ export default function Founder() {
                         </span>
                       </div>
                       <p className="text-zinc-600 text-xs mt-0.5">
-                        {c.org} · {c.location}
+                        {c.location ? `${c.org} · ${c.location}` : c.org}
                       </p>
                       <p className="text-zinc-500 text-xs leading-relaxed mt-2">
                         {c.summary}
