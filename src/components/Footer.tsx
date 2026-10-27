@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LINKEDIN_URL } from "@/lib/links";
+import { CONTACT_EMAIL, LINKEDIN_URL } from "@/lib/links";
 
 const footerLinks = [
   { label: "About", href: "#about" },
@@ -53,7 +53,13 @@ export default function Footer() {
           <p className="text-zinc-700 text-xs">
             © {new Date().getFullYear()} New East Strategic Edge. All rights reserved.
           </p>
-          <p className="text-zinc-800 text-xs">Vienna, Austria</p>
+          <p className="text-zinc-700 text-xs">
+            <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-zinc-400 transition-colors">
+              {CONTACT_EMAIL}
+            </a>
+            <span className="mx-2 text-zinc-800">·</span>
+            Vienna, Austria
+          </p>
         </div>
       </div>
     </footer>
