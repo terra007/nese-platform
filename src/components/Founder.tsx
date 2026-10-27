@@ -317,21 +317,6 @@ export default function Founder() {
               </div>
             </div>
 
-            {/* Pull quote */}
-            <div className="border-l-2 pl-6 py-1" style={{ borderColor: "color-mix(in srgb, var(--color-accent) 40%, transparent)" }}>
-              <blockquote
-                className="text-zinc-300 text-lg leading-relaxed italic"
-                style={{ fontFamily: "var(--font-dm-serif), Georgia, serif" }}
-              >
-                &ldquo;Europe&rsquo;s security landscape is shifting — and fast.
-                Strategic clarity is no longer optional; it is the precondition
-                for meaningful engagement.&rdquo;
-              </blockquote>
-              <cite className="mt-3 block text-zinc-600 text-[10px] tracking-[0.2em] uppercase not-italic">
-                Warsaw Security Forum, 2025
-              </cite>
-            </div>
-
             {/* Current position */}
             <div>
               <Eyebrow>Current Position</Eyebrow>
