@@ -158,7 +158,7 @@ export default function Founder() {
                   leverage and institutional manipulation.
                 </p>
                 <p>
-                  Her published research on Armenia's geopolitical realignment
+                  Her published research on Armenia&apos;s geopolitical realignment
                   and EU enlargement preparedness has been recognised by leading
                   European policy institutes. She has spoken at the{" "}
                   <span className="text-zinc-300">Warsaw Security Forum</span>,
