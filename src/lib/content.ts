@@ -64,7 +64,7 @@ export const CONTENT_DEFAULTS: Record<string, string> = {
   "contact.headline": "Request an Analysis",
   "contact.subtext":
     "Whether you need a bespoke political risk assessment, ongoing monitoring, or a rapid-response brief, our team is available to discuss your requirements in complete confidence.",
-  "contact.email": "contact@nese-advisory.org",
+  "contact.email": "contact@nese.consulting",
   "contact.location": "Vienna, Austria",
 
   // Global / Theme
