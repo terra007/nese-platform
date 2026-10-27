@@ -5,13 +5,6 @@ const A = "var(--color-accent, #c9a84c)";
 export default async function Mission() {
   const content = await getContent();
 
-  const stats = [
-    { value: content["mission.stat_1_value"], label: content["mission.stat_1_label"] },
-    { value: content["mission.stat_2_value"], label: content["mission.stat_2_label"] },
-    { value: content["mission.stat_3_value"], label: content["mission.stat_3_label"] },
-    { value: content["mission.stat_4_value"], label: content["mission.stat_4_label"] },
-  ];
-
   return (
     <section id="about" className="py-32 bg-zinc-950 border-t border-white/[0.06]">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -41,22 +34,6 @@ export default async function Mission() {
 
           {/* Right */}
           <div className="space-y-8 lg:pt-14">
-            <div className="grid grid-cols-2 gap-px bg-white/[0.06]">
-              {stats.map((stat) => (
-                <div key={stat.label} className="bg-zinc-950 p-7 text-center">
-                  <div
-                    className="text-4xl mb-2"
-                    style={{ color: A, fontFamily: "var(--font-dm-serif), Georgia, serif" }}
-                  >
-                    {stat.value}
-                  </div>
-                  <div className="text-zinc-600 text-[10px] tracking-[0.2em] uppercase">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-
             {/* Pull quote */}
             <div
               className="pl-6 py-1 border-l-2"
