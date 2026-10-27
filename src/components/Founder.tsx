@@ -301,19 +301,6 @@ export default function Founder() {
                   tools — from disinformation and cyber operations to economic
                   leverage and institutional manipulation.
                 </p>
-                <p>
-                  Her published research on Armenia&apos;s geopolitical realignment
-                  and EU enlargement preparedness has been recognised by leading
-                  European policy institutes. She has spoken at the{" "}
-                  <span className="text-zinc-300">Warsaw Security Forum</span>,
-                  the{" "}
-                  <span className="text-zinc-300">
-                    OSCE Supplementary Human Dimension Meeting
-                  </span>
-                  , and{" "}
-                  <span className="text-zinc-300">Denkfabrik Academy Vienna</span>{" "}
-                  — consistently bridging academic rigour with policy relevance.
-                </p>
               </div>
             </div>
 
