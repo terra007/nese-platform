@@ -25,9 +25,9 @@ export const CONTENT_DEFAULTS: Record<string, string> = {
   "services.3.title": "Hybrid Threat Analysis",
   "services.3.description":
     "Systematic mapping of non-conventional warfare vectors including disinformation campaigns, cyber intrusions, energy coercion, and proxy force activities. We identify the fingerprints of state-sponsored hybrid operations and deliver early-warning indicators for clients in exposed sectors.",
-  "services.4.title": "Tools of Coercion",
+  "services.4.title": "Business Analytics & Data Analysis",
   "services.4.description":
-    "In-depth analysis of the coercive instruments deployed by state and non-state actors — from economic sanctions and energy leverage to lawfare, targeted operations, and information manipulation. We document, categorise, and model these tools to enable proactive counterstrategy.",
+    "Data-driven analysis of markets, companies, and business environments to support strategic decision-making. We combine data cleaning, visualisation, and market research using Excel, Power BI, Databricks, R, and Python, alongside databases including PitchBook, FactSet, Refinitiv, Gain.pro, Mergermarket, GlobalData, Euromonitor, Factiva, and Statista.",
 
   "services.industries_headline": "Industries We’ve Worked With",
   "services.industries_intro":
