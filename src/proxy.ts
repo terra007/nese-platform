@@ -45,6 +45,18 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 
+  // The two-factor step itself only needs the password session.
+  if (pathname === "/admin/mfa") return response;
+
+  // Everything else requires a verified second factor (AAL2).
+  const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+  const hasVerifiedFactor = (user.factors ?? []).some(
+    (f) => f.factor_type === "totp" && f.status === "verified"
+  );
+  if (aal?.currentLevel !== "aal2" || !hasVerifiedFactor) {
+    return NextResponse.redirect(new URL("/admin/mfa", request.url));
+  }
+
   return response;
 }
 

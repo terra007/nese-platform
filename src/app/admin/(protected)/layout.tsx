@@ -1,21 +1,14 @@
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/admin/auth";
 import AdminShell from "../AdminShell";
+
+export const dynamic = "force-dynamic";
 
 export default async function ProtectedAdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const adminId = process.env.ADMIN_USER_ID;
-  if (!user || !adminId || user.id !== adminId) {
-    redirect("/admin/login");
-  }
-
+  // Requires the admin account AND a verified second factor (AAL2).
+  const { user } = await requireAdmin();
   return <AdminShell email={user.email ?? ""}>{children}</AdminShell>;
 }

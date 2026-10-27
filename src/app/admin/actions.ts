@@ -2,8 +2,12 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { CONTENT_SCHEMA } from "@/lib/content";
+import { requireAdmin } from "@/lib/admin/auth";
+import { rateLimit, resetRateLimit, settle } from "@/lib/rate-limit";
+import { clientIp } from "@/lib/contact/security";
 
 const ALLOWED_CONTENT_KEYS = new Set(
   CONTENT_SCHEMA.flatMap((section) => section.fields.map((f) => f.key))
@@ -15,19 +19,19 @@ const BUILTIN_SLUGS = new Set([
   "hero", "services", "mission", "approach", "founder", "contact",
 ]);
 
-async function requireAdmin() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const adminId = process.env.ADMIN_USER_ID;
-  if (!user || !adminId || user.id !== adminId) {
-    redirect("/admin/login");
+/** Allows only http(s), mailto, in-page anchors and site-relative paths (blocks javascript: etc.). */
+function isSafeUrl(url: string) {
+  if (!url) return true;
+  if (url.startsWith("#") || (url.startsWith("/") && !url.startsWith("//"))) return true;
+  try {
+    const u = new URL(url);
+    return ["https:", "http:", "mailto:"].includes(u.protocol);
+  } catch {
+    return false;
   }
-
-  return { supabase, user };
 }
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 // ─── Auth ───────────────────────────────────────────────────────────────────
 
@@ -35,36 +39,50 @@ export async function loginAction(
   _prevState: { error?: string } | null,
   formData: FormData
 ) {
-  const email = (formData.get("email") as string | null)?.trim() ?? "";
-  const password = (formData.get("password") as string | null) ?? "";
+  const email = ((formData.get("email") as string | null) ?? "").trim().toLowerCase().slice(0, 254);
+  const password = ((formData.get("password") as string | null) ?? "").slice(0, 512);
+  const GENERIC = { error: "Invalid credentials. Please try again." };
 
   if (!email || !password) return { error: "Email and password are required." };
 
-  const adminEmail = process.env.ADMIN_EMAIL;
+  const ip = clientIp(await headers());
+  // Brute-force protection: per IP and per account.
+  if (
+    !rateLimit("login-ip", ip, 10, 15 * 60 * 1000) ||
+    !rateLimit("login-account", email, 5, 15 * 60 * 1000)
+  ) {
+    await settle();
+    return { error: "Too many sign-in attempts. Please wait 15 minutes and try again." };
+  }
+
+  const adminEmail = (process.env.ADMIN_EMAIL ?? "").trim().toLowerCase();
   if (!adminEmail || email !== adminEmail) {
-    return { error: "Invalid credentials. Please try again." };
+    await settle(); // keep response time similar to a real password check
+    return GENERIC;
   }
 
   const supabase = await createClient();
-  const { error, data } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  const { error, data } = await supabase.auth.signInWithPassword({ email, password });
 
-  if (error) return { error: "Invalid credentials. Please try again." };
+  if (error) {
+    await settle();
+    return GENERIC;
+  }
 
   const adminId = process.env.ADMIN_USER_ID;
   if (!adminId || data.user?.id !== adminId) {
     await supabase.auth.signOut();
-    return { error: "Invalid credentials. Please try again." };
+    return GENERIC;
   }
 
-  redirect("/admin");
+  resetRateLimit("login-account", email);
+  // Password alone is not enough: continue to the second factor.
+  redirect("/admin/mfa");
 }
 
 export async function logoutAction() {
   const supabase = await createClient();
-  await supabase.auth.signOut();
+  await supabase.auth.signOut({ scope: "global" });
   redirect("/admin/login");
 }
 
@@ -200,7 +218,8 @@ export async function addSection(formData: FormData) {
   const heading  = ((formData.get("heading")  as string | null) ?? "").trim().slice(0, 500);
   const body     = ((formData.get("body")     as string | null) ?? "").trim().slice(0, MAX_VALUE_LENGTH);
   const cta_text = ((formData.get("cta_text") as string | null) ?? "").trim().slice(0, 200);
-  const cta_url  = ((formData.get("cta_url")  as string | null) ?? "").trim().slice(0, 500);
+  const rawCta   = ((formData.get("cta_url")  as string | null) ?? "").trim().slice(0, 500);
+  const cta_url  = isSafeUrl(rawCta) ? rawCta : "";
 
   if (!title || !heading) return redirect("/admin/sections?error=missing");
 
@@ -263,6 +282,9 @@ export async function publishSections() {
 
 export async function reorderSections(orderedIds: string[]) {
   const { supabase } = await requireAdmin();
+  if (!Array.isArray(orderedIds) || orderedIds.length > 100 || !orderedIds.every((id) => typeof id === "string" && UUID_RE.test(id))) {
+    return { success: false };
+  }
 
   const results = await Promise.all(
     orderedIds.map((id, index) =>
