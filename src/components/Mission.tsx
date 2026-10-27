@@ -8,7 +8,7 @@ export default async function Mission() {
   return (
     <section id="about" className="py-32 bg-zinc-950 border-t border-white/[0.06]">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+        <div className="max-w-3xl">
           {/* Left */}
           <div>
             <p className="text-[11px] tracking-[0.25em] uppercase mb-6" style={{ color: A }}>
@@ -32,24 +32,6 @@ export default async function Mission() {
             </div>
           </div>
 
-          {/* Right */}
-          <div className="space-y-8 lg:pt-14">
-            {/* Pull quote */}
-            <div
-              className="pl-6 py-1 border-l-2"
-              style={{ borderColor: `color-mix(in srgb, ${A} 40%, transparent)` }}
-            >
-              <blockquote
-                className="text-zinc-300 text-lg leading-relaxed mb-3 italic"
-                style={{ fontFamily: "var(--font-dm-serif), Georgia, serif" }}
-              >
-                &ldquo;{content["mission.quote"]}&rdquo;
-              </blockquote>
-              <cite className="text-zinc-600 text-[10px] tracking-[0.2em] uppercase not-italic">
-                {content["mission.quote_attribution"]}
-              </cite>
-            </div>
-          </div>
         </div>
       </div>
     </section>

@@ -31,17 +31,14 @@ export const CONTENT_DEFAULTS: Record<string, string> = {
 
   // Mission
   "mission.eyebrow": "About NESE",
-  "mission.headline_1": "Bridging Expertise",
+  "mission.headline_1": "Bridging Knowledge",
   "mission.headline_2": "and Action",
   "mission.paragraph_1":
-    "New East Strategic Edge was founded to close the gap between rigorous academic analysis and the real-world decisions faced by governments, investors, and security practitioners operating in Eastern Europe's most contested environments.",
+    "New East Strategic Edge was founded to close the gap between rigorous academic analysis and the real-world decisions faced by governments, investors, and security practitioners operating in Eastern Europe.",
   "mission.paragraph_2":
-    "Our team combines deep regional expertise with methodological rigour — drawing on backgrounds in political science, intelligence studies, international law, and operational security to deliver intelligence that is analytically sound and operationally relevant.",
+    "Our toolkit combines deep regional expertise with methodological rigour — drawing on the best practices in public affairs, consulting, data analytics and diplomacy.",
   "mission.paragraph_3":
     "We focus on the zone stretching from the Baltic to the Black Sea, the South Caucasus, and Central Asia — regions that sit at the intersection of great-power competition and are frequently underserved by mainstream risk providers.",
-  "mission.quote":
-    "The greatest risk is not uncertainty itself — it is the failure to understand it.",
-  "mission.quote_attribution": "NESE Founding Principle",
 
   // Approach
   "approach.eyebrow": "Methodology",
@@ -151,12 +148,6 @@ export const CONTENT_SCHEMA: ContentSection[] = [
       { key: "mission.paragraph_1", label: "Paragraph 1", type: "textarea" },
       { key: "mission.paragraph_2", label: "Paragraph 2", type: "textarea" },
       { key: "mission.paragraph_3", label: "Paragraph 3", type: "textarea" },
-      { key: "mission.quote", label: "Pull Quote", type: "textarea" },
-      {
-        key: "mission.quote_attribution",
-        label: "Quote Attribution",
-        type: "text",
-      },
     ],
   },
   {
