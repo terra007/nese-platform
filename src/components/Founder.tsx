@@ -10,20 +10,13 @@ const publications = [
       "From Moscow's Grip to Washington's Embrace: Armenia's Internal Transformation and its Turn to the West",
     venue: "Denkfabrik Academy",
     year: "2025",
-    href: "https://denkfabrik.online/milana-bagdasarian-from-moscows-grip-to-washingtons-embrace-armenias-internal-transformation-and-its-turn-to-the-west/",
+    href: "https://denkfabrik.page/milana-bagdasarian-from-moscows-grip-to-washingtons-embrace-armenias-internal-transformation-and-its-turn-to-the-west/",
   },
   {
     title: "Accelerating EU Enlargement: A Participation Readiness Framework",
     venue: "IDM Institute for the Danube Region and Central Europe",
     year: "2026",
     href: "https://www.idm.at/idm-pps-4-2026-accelerating-eu-enlargement/",
-  },
-  {
-    title:
-      "Transforming Justice: Why Compassion and Reconciliation Are Better Than a Blindfold",
-    venue: "Mediares — Journal on Conflict Transformation & Restorative Justice",
-    year: "2023",
-    href: "https://www.mediaresrivista.it/",
   },
 ];
 
