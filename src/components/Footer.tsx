@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LINKEDIN_URL } from "@/lib/links";
 
 const footerLinks = [
   { label: "About", href: "#about" },
@@ -37,6 +38,14 @@ export default function Footer() {
                 {link.label}
               </Link>
             ))}
+            <a
+              href={LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors tracking-[0.15em] uppercase"
+            >
+              LinkedIn
+            </a>
           </nav>
         </div>
 
